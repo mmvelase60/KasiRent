@@ -76,6 +76,8 @@ export function tenancyRoutes(api, db) {
       await tx.query('SELECT id FROM rooms WHERE owner=$1 ORDER BY id FOR UPDATE', [req.owner]);
       const tenants = (await tx.query("SELECT * FROM tenancies WHERE owner=$1 AND start_month<=$2 AND (end_on IS NULL OR to_char(end_on,'YYYY-MM') >= $2)", [req.owner,month])).rows;
       for (const t of tenants) {
+        const opening = (await tx.query('SELECT as_on::text FROM opening_balances WHERE tenancy_id=$1 AND voided_at IS NULL', [t.id])).rows[0];
+        if (opening && month < opening.as_on.slice(0,7)) continue;
         const rate = (await tx.query('SELECT amount FROM rent_changes WHERE tenancy_id=$1 AND effective_month <= $2 ORDER BY effective_month DESC LIMIT 1', [t.id,month])).rows[0];
         await tx.query('INSERT INTO charges VALUES ($1,$2,$3,$4,$5) ON CONFLICT (tenancy_id,month) DO NOTHING', [randomUUID(),req.owner,t.id,month,rate?.amount ?? t.rent]);
       }

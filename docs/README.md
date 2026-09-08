@@ -139,3 +139,5 @@ The app is a local MVP. Documentation describes both the inspected implementatio
 TaxiSphere supplied the organizational pattern; its transport features, company identity, technology choices and approval claims are not part of KasiRent.
 
 - [KR-BCK-003 — Effective-Month Rent](08-Backend/KR-BCK-003-Effective-Month-Rent.md)
+
+- [KR-BCK-004 — Opening balances](08-Backend/KR-BCK-004-Opening-Balances.md)

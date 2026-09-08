@@ -106,10 +106,10 @@ test('populated legacy database migrates once, preserves money and survives reop
     await db.query("INSERT INTO payments(id,owner,tenancy_id,amount,method,paid_on,reference) VALUES ('pay','a','t',100000,'Cash','2026-01-10','Rent')");
     await db.close(); db = await database(null,dir);
     assert.equal((await db.query("SELECT start_on::text FROM tenancies WHERE id='t'")).rows[0].start_on,'2026-01-01');
-    assert.equal((await db.query('SELECT count(*)::int AS n FROM schema_migrations')).rows[0].n,2);
+    assert.equal((await db.query('SELECT count(*)::int AS n FROM schema_migrations')).rows[0].n,3);
     assert.equal((await db.query("SELECT start_date_estimated FROM tenancies WHERE id='t'")).rows[0].start_date_estimated,true);
     await db.close(); db = await database(null,dir);
-    assert.equal((await db.query('SELECT count(*)::int AS n FROM schema_migrations')).rows[0].n,2);
+    assert.equal((await db.query('SELECT count(*)::int AS n FROM schema_migrations')).rows[0].n,3);
     assert.equal((await db.query('SELECT count(*)::int AS n FROM rent_changes')).rows[0].n,0);
     assert.equal((await db.query("SELECT rent FROM tenancies WHERE id='t'")).rows[0].rent,150000);
     const amounts = (await db.query('SELECT (SELECT sum(amount) FROM charges) - (SELECT sum(amount) FROM payments) AS balance')).rows[0];
@@ -178,4 +178,39 @@ test('concurrent rate changes and billing serialize without inconsistent charges
   const state=(await call('/state',undefined,a)).body;
   assert.equal(state.charges[0].amount,rate.status===200?200000:180000);
   assert.equal(state.rent_changes.length,rate.status===200?2:1);
+});
+
+test('opening arrears, credits, retries and corrections preserve the ledger', async t => {
+ const {call,a,b,input}=await fixture(t);const tenant=(await call('/tenancies',input,a)).body;
+ const url='/tenancies/'+tenant.id+'/opening-balance';const opening={id:randomUUID(),amount:240000,as_on:'2026-03-01',reason:'Paper ledger at end of February'};
+ assert.equal((await call(url,opening,b)).status,404);
+ const pair=await Promise.all([call(url,opening,a),call(url,opening,a)]);assert.deepEqual(pair.map(r=>r.status),[200,200]);assert.equal(pair[0].body.id,pair[1].body.id);
+ assert.equal((await call(url,{...opening,id:randomUUID()},a)).status,409);
+ assert.equal((await call(url,{...opening,amount:100},a)).status,409);
+ await call('/charges',{month:'2026-02'},a);await call('/charges',{month:'2026-03'},a);
+ const payment={id:randomUUID(),tenancy_id:tenant.id,amount:100000,method:'Cash',paid_on:'2026-02-28',reference:'Old'};
+ assert.equal((await call('/payments',payment,a)).status,409);
+ assert.equal((await call('/payments',{...payment,paid_on:'2026-03-01'},a)).status,200);
+ let state=(await call('/state',undefined,a)).body;
+ const balance=s=>s.charges.reduce((n,c)=>n+c.amount,0)+s.opening_balances.filter(o=>!o.voided_at).reduce((n,o)=>n+o.amount,0)-s.payments.filter(p=>!p.voided_at).reduce((n,p)=>n+p.amount,0);
+ assert.equal(balance(state),290000);assert.equal(state.charges.length,1);assert.equal(state.payments.length,1);
+ assert.deepEqual((await call('/state',undefined,b)).body.opening_balances,[]);
+ const reverse='/opening-balances/'+opening.id+'/void';assert.equal((await call(reverse,{reason:'Wrong source'},b)).status,404);
+ const reversed=await call(reverse,{reason:'Wrong source'},a);assert.equal(reversed.status,200);
+ assert.deepEqual((await call(reverse,{reason:'Wrong source'},a)).body,reversed.body);
+ assert.equal((await call(reverse,{reason:'Different'},a)).status,409);
+ assert.ok((await call(url,opening,a)).body.voided_at);
+ assert.equal((await call(url,{...opening,id:randomUUID(),amount:-60000,reason:'Correct opening credit'},a)).status,200);
+ const after=(await call('/state',undefined,a)).body;assert.equal(balance(after),-10000);assert.deepEqual(after.charges,state.charges);assert.deepEqual(after.payments,state.payments);assert.equal(after.opening_balances.length,2);
+});
+
+test('opening validation and races prevent duplicate historical money', async t => {
+ const {call,a,input}=await fixture(t);const tenant=(await call('/tenancies',input,a)).body;const url='/tenancies/'+tenant.id+'/opening-balance';const opening={id:randomUUID(),amount:240000,as_on:'2026-03-01',reason:'Imported'};
+ for(const patch of [{amount:0},{amount:1.5},{amount:100000001},{as_on:'2026-03-02'},{as_on:'2099-01-01'},{as_on:'2025-12-01'},{reason:' '}])assert.equal((await call(url,{...opening,...patch},a)).status,400);
+ const [imported,charged]=await Promise.all([call(url,opening,a),call('/charges',{month:'2026-02'},a)]);assert.equal(charged.status,200);assert.ok([200,409].includes(imported.status));
+ let state=(await call('/state',undefined,a)).body;assert.equal(state.charges.length,imported.status===200?0:1);
+ if(imported.status===200)await call('/opening-balances/'+opening.id+'/void',{reason:'Testing correction'},a);
+ const next={...opening,id:randomUUID(),as_on:'2026-01-01'};assert.equal((await call(url,next,a)).status,200);
+ await call('/tenancies/'+tenant.id+'/end',{end_on:'2026-02-28',reason:'Moved'},a);
+ assert.equal((await call('/state',undefined,a)).body.opening_balances.filter(o=>!o.voided_at).length,1);
 });

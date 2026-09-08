@@ -1,7 +1,7 @@
 ---
 document_id: KR-DOM-005
 title: "KasiRent Business Rules Catalogue"
-version: 0.3.0
+version: 0.4.0
 status: Draft
 classification: Internal
 owner: "Product owner and engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-DOM-005 |
-| Version / date | 0.3.0 / 2026-09-08 |
+| Version / date | 0.4.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner and engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -27,6 +27,7 @@ last_updated: 2026-09-08
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
 | 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
+| 0.4.0 | 2026-09-08 | Add opening balances and correction rules. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -80,3 +81,7 @@ The last occupied date must be real, not before move-in and not later than today
 ## Effective-month rent update
 
 Monthly charges use the latest effective rate on/before the charge month, falling back to starting rent. Saved charges never change. New rent changes must follow all saved charges and scheduled rates; increases and decreases are supported. See [effective-month rent](../08-Backend/KR-BCK-003-Effective-Month-Rent.md).
+
+## Opening balances
+
+Opening arrears/credits, cutoff rules and retained reversals are implemented through migration 003 and owner-scoped endpoints. Balance includes the active signed opening amount; collection totals do not. See [KR-BCK-004](../08-Backend/KR-BCK-004-Opening-Balances.md) for the contract and workflow.

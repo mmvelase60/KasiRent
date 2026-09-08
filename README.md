@@ -11,6 +11,7 @@ KasiRent brings property inventory, renter history and rent records into one lan
 - Landlord registration, sign-in and owner-scoped records.
 - Properties, rooms, dated move-ins and move-outs.
 - Active and former renter history, including outstanding balances.
+- Opening arrears and credits with reversal history and duplicate-period protection.
 - Effective-month rent changes with preserved rate history.
 - Monthly charges, partial payments, credits and payment reversals.
 - Native receipt sharing and browser text downloads.
@@ -56,13 +57,13 @@ For a physical phone, set `EXPO_PUBLIC_API_URL=http://YOUR-COMPUTER-LAN-IP:3001`
 
 ## First workflow
 
-Add a property → add rooms → assign tenants → charge the relevant rent month → record cash/EFT/bank-deposit payments → share receipts. Charge previous months explicitly if importing earlier balances. All amounts are stored as integer cents. Partial payments and credits are supported. Reversals retain the original payment and a reason. Monthly charges are unique per tenancy/month. Payment request IDs prevent retry duplicates. Sample records never enter the database.
+Add a property → add rooms → assign tenants → charge the relevant rent month → record cash/EFT/bank-deposit payments → share receipts. Use an opening balance for imported arrears or credit, or charge earlier months individually; do not count the same history twice. All amounts are stored as integer cents. Partial payments and credits are supported. Reversals retain the original payment and a reason. Monthly charges are unique per tenancy/month. Payment request IDs prevent retry duplicates. Sample records never enter the database.
 
 ## Checks
 
 `npm test` runs integration tests against an isolated embedded PostgreSQL database. In `mobile`, run `npx tsc --noEmit` and `npx expo export --platform web`.
 
-The nine backend tests cover the rent workflow, ownership checks, payment retries and reversals, replacement tenancies, date validation, concurrent moves, same-month charging, rent-rate selection, concurrent billing/rate changes, and upgrading/reopening a populated legacy database. TypeScript, web export and Android bundle checks also passed during development. Bundle compilation does not replace physical-device testing.
+The backend tests cover the rent workflow, ownership checks, payment retries and reversals, replacement tenancies, date validation, concurrent moves, same-month charging, rent-rate selection, concurrent billing/rate changes, and upgrading/reopening a populated legacy database. TypeScript, web export and Android bundle checks also passed during development. Bundle compilation does not replace physical-device testing.
 
 ## Project layout
 

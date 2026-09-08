@@ -1,7 +1,7 @@
 ---
 document_id: KR-TST-001
 title: "KasiRent Test Strategy and Acceptance Plan"
-version: 0.3.0
+version: 0.4.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-TST-001 |
-| Version / date | 0.3.0 / 2026-09-08 |
+| Version / date | 0.4.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -27,6 +27,7 @@ last_updated: 2026-09-08
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
 | 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
+| 0.4.0 | 2026-09-08 | Add opening balances and correction rules. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -51,7 +52,7 @@ server/app.test.mjs contains one integration test spanning a full workflow. The 
 | TC-010 | Receipt content and delivery | Manual/native/browser checks pending |
 | TC-011 | Sample isolation | UI inspection only; automated UI test pending |
 | TC-012 | Tenancy replacement history | Automated: replacement, arrears, isolation, dates, concurrency, billing and legacy migration/reopen |
-| TC-013 | Rent changes and opening adjustments | Three rent-change integration tests pass; opening adjustments planned |
+| TC-013 | Rent changes and opening adjustments | Three rent-change integration tests pass; opening balances implemented; general adjustments remain outside scope |
 | TC-014 | Immutable receipt correction | Planned with FR-014 |
 | TC-015 | Recovery/privacy workflow | Planned with FR-015 |
 | TC-016 | Persist, back up and restore | Not tested in current integration suite |
@@ -89,3 +90,5 @@ Five tests in server/tenancies.test.mjs supplement the original money workflow. 
 - [KR-RTM-001 — Requirements Traceability Matrix](../02-Requirements/KR-RTM-001-Requirements-Traceability-Matrix.md)
 - [KR-SRS-001 — Software Requirements Specification](../02-Requirements/KR-SRS-001-Software-Requirements-Specification.md)
 - [KR-REL-001 — Initial Local Baseline](../18-Release-Notes/KR-REL-001-Initial-Local-Baseline.md)
+
+Opening-balance contract and acceptance details: [KR-BCK-004](../08-Backend/KR-BCK-004-Opening-Balances.md).
