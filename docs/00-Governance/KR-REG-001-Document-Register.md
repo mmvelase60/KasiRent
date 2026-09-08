@@ -1,12 +1,12 @@
 ---
 document_id: KR-REG-001
 title: "KasiRent Document Register"
-version: 0.1.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Product owner and engineering"
 project: KasiRent
-last_updated: 2026-09-07
+last_updated: 2026-09-08
 ---
 
 # KR-REG-001 — Document Register
@@ -16,7 +16,7 @@ last_updated: 2026-09-07
 | Field | Value |
 | --- | --- |
 | Document ID | KR-REG-001 |
-| Version / date | 0.1.0 / 2026-09-07 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner and engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-07
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 
 ## Executive summary
 
@@ -89,6 +90,8 @@ This register lists the complete initial set, including itself. Template placeho
 | KR-BCK-002 | [Tenancy Lifecycle](../08-Backend/KR-BCK-002-Tenancy-Lifecycle.md) | 08-Backend | Draft |
 | ADR-006 | [Historical Tenancies and Migrations](../14-ADR/ADR-006-Historical-Tenancies-and-Migrations.md) | 14-ADR | Draft |
 | KR-REL-002 | [Tenancy Lifecycle](../18-Release-Notes/KR-REL-002-Tenancy-Lifecycle.md) | 18-Release-Notes | Draft |
+
+| KR-BCK-003 | [Effective-Month Rent](../08-Backend/KR-BCK-003-Effective-Month-Rent.md) | 08-Backend | Draft |
 
 ## Change control
 

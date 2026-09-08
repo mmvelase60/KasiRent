@@ -1,7 +1,7 @@
 ---
 document_id: KR-RTM-001
 title: "KasiRent Requirements Traceability Matrix"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-RTM-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -50,7 +51,7 @@ Source paths below are relative to the project root. TC identifiers describe sce
 | BR-005 | FR-010 | US-008 / UC-004 | RULE-010 | Main.tsx receipt; shareReceipt.ts | TC-010 manual pending |
 | BR-002 | FR-011 | UC-007 | RULE-011 | client-only sample data | TC-011 manual pending |
 | BR-007 | FR-012 | US-009 / UC-008 | RULE-004, RULE-013 | server/tenancies.mjs; migration 001; tenant filters | TC-012 automated lifecycle/migration tests |
-| BR-007 | FR-013 | US-010, US-011 | Planned effective-date rules | No implementation | TC-013 planned |
+| BR-007 | FR-013 | US-010, US-011 | Append-only monthly rates; saved charges unchanged | tenancies.mjs, migration 002, rent schedule UI | TC-013 rent changes covered; opening adjustments planned |
 | BR-005 | FR-014 | US-012 | Planned receipt snapshot | No implementation | TC-014 planned |
 | BR-008 | FR-015 | US-013 | Planned recovery/privacy flow | No implementation | TC-015 planned |
 | BR-008 | FR-016 | US-014 | Planned recovery controls | No implementation | TC-016 planned |

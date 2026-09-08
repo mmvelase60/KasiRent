@@ -1,7 +1,7 @@
 ---
 document_id: KR-ADS-001
 title: "KasiRent API Design Specification"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-ADS-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -117,3 +118,7 @@ New move-ins use start_on from 1900 through today in Africa/Johannesburg. A lega
 - [KR-SRS-001 — Software Requirements Specification](../02-Requirements/KR-SRS-001-Software-Requirements-Specification.md)
 - [KR-DDS-001 — Database Design Specification](../05-Database/KR-DDS-001-Database-Design-Specification.md)
 - [KR-SEC-001 — Security Architecture and Threat Model](../09-Security/KR-SEC-001-Security-Architecture-and-Threat-Model.md)
+
+## Effective-month rent update
+
+POST /tenancies/:id/rent-changes adds or exactly replays an owner-scoped rate. GET /state now includes rent_changes. See the linked contract for validation and conflict responses. See [effective-month rent](../08-Backend/KR-BCK-003-Effective-Month-Rent.md).

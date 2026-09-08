@@ -1,7 +1,7 @@
 ---
 document_id: KR-UXS-001
 title: "KasiRent UI UX Specification"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Product owner and engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-UXS-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner and engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -74,3 +75,7 @@ Tenant detail shows move-in and status. Migrated month-only starts are labelled 
 - [KR-SRS-001 — Software Requirements Specification](../02-Requirements/KR-SRS-001-Software-Requirements-Specification.md)
 - [KR-USE-001 — Use Cases](../02-Requirements/KR-USE-001-Use-Cases.md)
 - [KR-TST-001 — Test Strategy and Acceptance Plan](../10-Testing/KR-TST-001-Test-Strategy-and-Acceptance-Plan.md)
+
+## Effective-month rent update
+
+The renter detail includes current rent, starting rent, scheduled/history rows and Change rent for active renters. Forms require amount, effective month and reason, and warn that saved changes cannot be edited/cancelled. Sample saves remain disabled. See [effective-month rent](../08-Backend/KR-BCK-003-Effective-Month-Rent.md).

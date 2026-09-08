@@ -2,7 +2,7 @@
 
 A controlled product and engineering documentation pack, following TaxiSphere's numbered-folder structure and adapted to KasiRent's rental workflows.
 
-**Baseline:** 0.2.0 lifecycle update · **Date:** 8 September 2026 · **Status:** Draft for review.
+**Baseline:** 0.3.0 rent schedule update · **Date:** 8 September 2026 · **Status:** Draft for review.
 
 The app is a local MVP. Documentation describes both the inspected implementation and proposed next work; it does not mark the system production-ready.
 
@@ -137,3 +137,5 @@ The app is a local MVP. Documentation describes both the inspected implementatio
 **Implemented** means source exists; it does not imply every acceptance test has passed. **Partial** identifies a supported subset. **Planned** means no implementation should be assumed. Document approval remains separate from feature status.
 
 TaxiSphere supplied the organizational pattern; its transport features, company identity, technology choices and approval claims are not part of KasiRent.
+
+- [KR-BCK-003 — Effective-Month Rent](08-Backend/KR-BCK-003-Effective-Month-Rent.md)

@@ -34,7 +34,7 @@ export function app(db) {
  api.use(async(req,res,next) => {const token=req.headers.authorization?.replace(/^Bearer /,''); const session=token && (await rows('SELECT owner FROM sessions WHERE token=$1 AND expires>now()',[hashToken(token)]))[0]; if(!session)return res.status(401).json({error:'Please sign in again.'}); req.owner=session.owner; next();});
  api.post('/logout',async(req,res)=>{await rows('DELETE FROM sessions WHERE token=$1',[hashToken(req.headers.authorization.replace(/^Bearer /,''))]);res.json({ok:true});});
  api.get('/state',async(req,res)=>{
-  const result={}; for(const table of ['properties','rooms','tenancies','charges','payments']) result[table]=await rows(`SELECT * FROM ${table} WHERE owner=$1`,[req.owner]);
+  const result={}; for(const table of ['properties','rooms','tenancies','charges','payments','rent_changes']) result[table]=await rows(`SELECT * FROM ${table} WHERE owner=$1`,[req.owner]);
   res.json(result);
  });
  api.post('/properties',async(req,res)=>{const p=z.object({name:text,address:text}).parse(req.body);res.json((await rows('INSERT INTO properties VALUES ($1,$2,$3,$4) RETURNING *',[id(),req.owner,p.name,p.address]))[0]);});

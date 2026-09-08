@@ -12,6 +12,29 @@ const asDate = v => v instanceof Date ? v.toISOString().slice(0, 10) : String(v)
 function fail(status, message) { const e = new Error(message); e.status = status; throw e; }
 
 export function tenancyRoutes(api, db) {
+  api.post('/tenancies/:id/rent-changes', async (req, res) => {
+    const input = z.object({ effective_month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/).min(7).refine(m => m >= '1900-01'), amount: z.number().int().positive().max(100000000), reason: text }).parse(req.body);
+    const result = await transaction(db, async tx => {
+      const original = (await tx.query('SELECT room_id FROM tenancies WHERE id=$1 AND owner=$2', [req.params.id,req.owner])).rows[0];
+      if (!original) fail(404, 'Tenancy not found.');
+      await tx.query('SELECT id FROM rooms WHERE id=$1 AND owner=$2 FOR UPDATE', [original.room_id,req.owner]);
+      const t = (await tx.query('SELECT * FROM tenancies WHERE id=$1 AND owner=$2', [req.params.id,req.owner])).rows[0];
+      const existing = (await tx.query('SELECT * FROM rent_changes WHERE tenancy_id=$1 AND effective_month=$2', [t.id,input.effective_month])).rows[0];
+      if (existing) {
+        if (existing.amount === input.amount && existing.reason === input.reason) return existing;
+        fail(409, 'A rent change already exists for this month. Saved changes cannot be overwritten.');
+      }
+      if (t.end_on) fail(409, 'Rent cannot be changed for a former tenant.');
+      if (input.effective_month <= t.start_month) fail(400, 'Use a month after the first rental month.');
+      const last = (await tx.query('SELECT * FROM rent_changes WHERE tenancy_id=$1 ORDER BY effective_month DESC LIMIT 1', [t.id])).rows[0];
+      if (last && input.effective_month <= last.effective_month) fail(409, 'Use a month after the latest saved rent change.');
+      if (input.amount === (last?.amount ?? t.rent)) fail(400, 'Enter an amount different from the previous rent.');
+      if ((await tx.query('SELECT id FROM charges WHERE tenancy_id=$1 AND month >= $2 LIMIT 1', [t.id,input.effective_month])).rows.length) fail(409, 'Rent is already charged for this month or a later month. Choose a month after all saved charges.');
+      return (await tx.query('INSERT INTO rent_changes(id,owner,tenancy_id,effective_month,amount,reason) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *', [randomUUID(),req.owner,t.id,input.effective_month,input.amount,input.reason])).rows[0];
+    });
+    res.json(result);
+  });
+
   api.post('/tenancies', async (req, res) => {
     const input = z.object({ room_id: text, name: text, phone: z.string().trim().max(30), rent: z.number().int().positive().max(100000000), due_day: z.number().int().min(1).max(28), start_on: day.optional(), start_month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/).optional() }).parse(req.body);
     const start = day.parse(input.start_on ?? (input.start_month ? input.start_month + '-01' : undefined));
@@ -52,7 +75,10 @@ export function tenancyRoutes(api, db) {
       // Same lock order as move-in/out keeps charging and occupancy changes consistent.
       await tx.query('SELECT id FROM rooms WHERE owner=$1 ORDER BY id FOR UPDATE', [req.owner]);
       const tenants = (await tx.query("SELECT * FROM tenancies WHERE owner=$1 AND start_month<=$2 AND (end_on IS NULL OR to_char(end_on,'YYYY-MM') >= $2)", [req.owner,month])).rows;
-      for (const t of tenants) await tx.query('INSERT INTO charges VALUES ($1,$2,$3,$4,$5) ON CONFLICT (tenancy_id,month) DO NOTHING', [randomUUID(),req.owner,t.id,month,t.rent]);
+      for (const t of tenants) {
+        const rate = (await tx.query('SELECT amount FROM rent_changes WHERE tenancy_id=$1 AND effective_month <= $2 ORDER BY effective_month DESC LIMIT 1', [t.id,month])).rows[0];
+        await tx.query('INSERT INTO charges VALUES ($1,$2,$3,$4,$5) ON CONFLICT (tenancy_id,month) DO NOTHING', [randomUUID(),req.owner,t.id,month,rate?.amount ?? t.rent]);
+      }
     });
     res.json({ok:true});
   });

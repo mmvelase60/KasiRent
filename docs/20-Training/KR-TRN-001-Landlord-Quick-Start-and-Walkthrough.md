@@ -1,7 +1,7 @@
 ---
 document_id: KR-TRN-001
 title: "KasiRent Landlord Quick Start and Walkthrough"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Product owner"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-TRN-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -92,3 +93,7 @@ Open Tenants → the active renter → Record move-out. Enter the last occupied 
 - [KR-WIK-001 — Project Guide and FAQ](../17-Wiki/KR-WIK-001-Project-Guide-and-FAQ.md)
 - [KR-USE-001 — Use Cases](../02-Requirements/KR-USE-001-Use-Cases.md)
 - [KR-REL-001 — Initial Local Baseline](../18-Release-Notes/KR-REL-001-Initial-Local-Baseline.md)
+
+## Effective-month rent update
+
+Open Tenants, choose an active renter and choose Change rent. Enter the rand amount, effective month and reason. Check carefully before saving: changes cannot be edited/cancelled. Choose a month after the first rental month, saved charges and latest scheduled change. See [effective-month rent](../08-Backend/KR-BCK-003-Effective-Month-Rent.md).

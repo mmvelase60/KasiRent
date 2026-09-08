@@ -1,7 +1,7 @@
 ---
 document_id: KR-DOM-004
 title: "KasiRent Domain Model"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-DOM-004 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -62,7 +63,7 @@ A partial unique index permits one active tenancy per room. Ended records remain
 
 ## Planned extension
 
-Model effective-dated rent terms, adjustments and receipt snapshots explicitly. A future deposit ledger must be separate from rent. Each change needs migrations, overlap rules, reconciliation examples and tests before it becomes a new baseline.
+Effective-dated rent terms are implemented in rent_changes. Model future adjustments and receipt snapshots explicitly. A future deposit ledger must be separate from rent. Each change needs migrations, overlap rules, reconciliation examples and tests before it becomes a new baseline.
 
 
 ## References

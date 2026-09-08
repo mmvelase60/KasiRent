@@ -11,6 +11,7 @@ KasiRent brings property inventory, renter history and rent records into one lan
 - Landlord registration, sign-in and owner-scoped records.
 - Properties, rooms, dated move-ins and move-outs.
 - Active and former renter history, including outstanding balances.
+- Effective-month rent changes with preserved rate history.
 - Monthly charges, partial payments, credits and payment reversals.
 - Native receipt sharing and browser text downloads.
 - Read-only sample workspace for exploring the interface.
@@ -61,7 +62,7 @@ Add a property → add rooms → assign tenants → charge the relevant rent mon
 
 `npm test` runs integration tests against an isolated embedded PostgreSQL database. In `mobile`, run `npx tsc --noEmit` and `npx expo export --platform web`.
 
-The six backend tests cover the rent workflow, ownership checks, payment retries and reversals, replacement tenancies, date validation, concurrent moves, same-month charging, and upgrading/reopening a populated legacy database. TypeScript, web export and Android bundle checks also passed during development. Bundle compilation does not replace physical-device testing.
+The nine backend tests cover the rent workflow, ownership checks, payment retries and reversals, replacement tenancies, date validation, concurrent moves, same-month charging, rent-rate selection, concurrent billing/rate changes, and upgrading/reopening a populated legacy database. TypeScript, web export and Android bundle checks also passed during development. Bundle compilation does not replace physical-device testing.
 
 ## Project layout
 
@@ -77,4 +78,4 @@ See [architecture](ARCHITECTURE.md), [contribution guidance](CONTRIBUTING.md), [
 
 This is an initial local MVP, not a publicly deployed service. Sessions are memory-only on the client and require sign-in after a reload; server sessions expire after seven days. Passwords are salted/scrypt hashed and session tokens are stored hashed. API access is scoped to the signed-in landlord.
 
-Before public operation: deploy behind HTTPS, restrict CORS, configure managed PostgreSQL and tested backups, add email verification/password reset and durable rate limiting, review privacy and receipt requirements, and test on physical phones. Current receipts share as text, not PDFs. No automated reminders, full offline sync, lease generation, payment processing, rent changes, or document uploads yet. The app records rent only; deposits and utilities must not be recorded as rent. Move-out and replacement tenants now preserve history. Open Tenants, choose a renter, then Record move-out; use Former to review their retained ledger. Rent changes remain planned. Full-month charging applies, including handover months.
+Before public operation: deploy behind HTTPS, restrict CORS, configure managed PostgreSQL and tested backups, add email verification/password reset and durable rate limiting, review privacy and receipt requirements, and test on physical phones. Current receipts share as text, not PDFs. No automated reminders, full offline sync, lease generation, payment processing, or document uploads yet. The app records rent only; deposits and utilities must not be recorded as rent. Move-out and replacement tenants now preserve history. Open Tenants, choose a renter, then Record move-out; use Former to review their retained ledger. To change rent, open a tenant and choose Change rent. Enter the new amount, effective month and reason; saved changes cannot be edited or cancelled. Full-month charging applies, including handover months.

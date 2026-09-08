@@ -1,7 +1,7 @@
 ---
 document_id: KR-CHR-001
 title: "KasiRent Project Charter"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Product owner"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-CHR-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -59,7 +60,7 @@ The product owner has previously managed a family rental business. KasiRent turn
 
 The current baseline covers account registration/sign-in, properties, rooms, historical tenancies with one active occupant per room, explicit monthly charging, rent payments, reversals, text receipts and dashboard totals.
 
-Pilot improvements cover effective-dated rent, opening balances, receipt preservation, recovery, backups and privacy operations. Later opportunities include tenant access, maintenance, reminders and documents. Payments go directly to landlords; KasiRent does not transfer or hold money.
+Effective-dated rent is implemented. Remaining pilot improvements cover opening balances, receipt preservation, recovery, backups and privacy operations. Later opportunities include tenant access, maintenance, reminders and documents. Payments go directly to landlords; KasiRent does not transfer or hold money.
 
 ## Stakeholders and responsibilities
 

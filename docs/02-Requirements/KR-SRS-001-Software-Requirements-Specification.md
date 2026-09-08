@@ -1,7 +1,7 @@
 ---
 document_id: KR-SRS-001
 title: "KasiRent Software Requirements Specification"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-SRS-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -56,7 +57,7 @@ Specify functional behaviour and measurable release requirements.
 | FR-010 | Generate a rent receipt and share natively or download browser text | Implemented; delivery not verified by automated test |
 | FR-011 | Offer read-only sample data isolated from account records | Implemented |
 | FR-012 | End tenancies and create subsequent occupancies without history loss | Implemented; migration and API tests |
-| FR-013 | Apply effective-dated rent changes and audited opening adjustments | Planned |
+| FR-013 | Apply effective-dated rent changes and audited opening adjustments | Partial: rent changes implemented; opening adjustments planned |
 | FR-014 | Issue immutable, versioned PDF receipts and correction references | Planned |
 | FR-015 | Provide verified account recovery and a documented privacy-rights workflow | Planned |
 | FR-016 | Export records and restore backups with reconciliation evidence | Planned |

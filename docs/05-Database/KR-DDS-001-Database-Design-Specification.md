@@ -1,7 +1,7 @@
 ---
 document_id: KR-DDS-001
 title: "KasiRent Database Design Specification"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-DDS-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -83,3 +84,7 @@ Do not copy PGlite files into a PostgreSQL server and expect compatibility. No a
 - [KR-OPS-001 — Local Operations and Recovery Guide](../11-Operations/KR-OPS-001-Local-Operations-and-Recovery-Guide.md)
 - [ADR-002 — PostgreSQL with Embedded Local Mode](../14-ADR/ADR-002-PostgreSQL-with-Embedded-Local-Mode.md)
 - [ADR-003 — Integer Cent Ledger and Reversals](../14-ADR/ADR-003-Integer-Cent-Ledger-and-Reversals.md)
+
+## Effective-month rent update
+
+Migration 002 adds rent_changes with owner/tenancy references, unique tenancy/effective_month, integer-cent amount, reason and creation time. Starting rent remains on tenancies; existing ledger rows are preserved. See [effective-month rent](../08-Backend/KR-BCK-003-Effective-Month-Rent.md).

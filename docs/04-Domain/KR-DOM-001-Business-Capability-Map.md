@@ -1,7 +1,7 @@
 ---
 document_id: KR-DOM-001
 title: "KasiRent Business Capability Map"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Product owner and engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-DOM-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner and engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -38,7 +39,7 @@ Map the rental business capabilities to current and future product scope.
 | --- | --- | --- | --- |
 | Identity and access | A landlord sees their own records | Account + opaque session | Recovery, staff roles and verification |
 | Property inventory | Rooms belong to a property | Create properties/rooms | Edit/archive with history protection |
-| Occupancy | Associate a renter with a room | Dated move-outs and subsequent tenancies | Date corrections and effective rent changes |
+| Occupancy | Associate a renter with a room | Dated move-outs, subsequent tenancies and effective rent changes | Date corrections |
 | Rent charging | Establish rent owed | Explicit selected-month charges | Effective dates, adjustments and missing-month checks |
 | Payment recording | Reflect funds received | Cash/EFT/bank-deposit entry | Reconciliation without assuming receipt from uploads |
 | Corrections | Explain changed balances | Payment reversal with reason | Charge adjustments and complete audit |

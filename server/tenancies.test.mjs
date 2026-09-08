@@ -106,10 +106,12 @@ test('populated legacy database migrates once, preserves money and survives reop
     await db.query("INSERT INTO payments(id,owner,tenancy_id,amount,method,paid_on,reference) VALUES ('pay','a','t',100000,'Cash','2026-01-10','Rent')");
     await db.close(); db = await database(null,dir);
     assert.equal((await db.query("SELECT start_on::text FROM tenancies WHERE id='t'")).rows[0].start_on,'2026-01-01');
-    assert.equal((await db.query('SELECT count(*)::int AS n FROM schema_migrations')).rows[0].n,1);
+    assert.equal((await db.query('SELECT count(*)::int AS n FROM schema_migrations')).rows[0].n,2);
     assert.equal((await db.query("SELECT start_date_estimated FROM tenancies WHERE id='t'")).rows[0].start_date_estimated,true);
     await db.close(); db = await database(null,dir);
-    assert.equal((await db.query('SELECT count(*)::int AS n FROM schema_migrations')).rows[0].n,1);
+    assert.equal((await db.query('SELECT count(*)::int AS n FROM schema_migrations')).rows[0].n,2);
+    assert.equal((await db.query('SELECT count(*)::int AS n FROM rent_changes')).rows[0].n,0);
+    assert.equal((await db.query("SELECT rent FROM tenancies WHERE id='t'")).rows[0].rent,150000);
     const amounts = (await db.query('SELECT (SELECT sum(amount) FROM charges) - (SELECT sum(amount) FROM payments) AS balance')).rows[0];
     assert.equal(Number(amounts.balance),50000);
     await db.query("UPDATE tenancies SET end_on='2026-01-31',ended_at=now(),end_reason='Moved' WHERE id='t'");
@@ -122,4 +124,58 @@ test('populated legacy database migrates once, preserves money and survives reop
     if (path.dirname(resolved)!==path.resolve(tmpdir()) || !path.basename(resolved).startsWith('kasirent-migration-')) throw Error('Unexpected cleanup path');
     await rm(resolved,{recursive:true,force:true});
   }
+});
+
+test('effective rent preserves earlier money, backfills correct rates and isolates owners', async t => {
+  const {call,a,b,input} = await fixture(t);
+  const tenant=(await call('/tenancies',input,a)).body;
+  const url='/tenancies/'+tenant.id+'/rent-changes';
+  await call('/charges',{month:'2026-01'},a);
+  await call('/payments',{id:randomUUID(),tenancy_id:tenant.id,amount:100000,method:'Cash',paid_on:'2026-01-10',reference:'January'},a);
+  const before=(await call('/state',undefined,a)).body;
+  const change={effective_month:'2026-03',amount:180000,reason:'Agreed new rate'};
+  assert.equal((await call(url,change,b)).status,404);
+  const saved=await call(url,change,a); assert.equal(saved.status,200);
+  assert.deepEqual((await call(url,change,a)).body,saved.body);
+  assert.equal((await call(url,{...change,amount:190000},a)).status,409);
+  assert.equal((await call(url,{effective_month:'2026-05',amount:160000,reason:'Agreed reduction'},a)).status,200);
+  for(const month of ['2026-05','2026-02','2026-04','2026-03','2026-01','2026-05']) assert.equal((await call('/charges',{month},a)).status,200);
+  const state=(await call('/state',undefined,a)).body;
+  assert.deepEqual(state.charges.sort((x,y)=>x.month.localeCompare(y.month)).map(c=>[c.month,c.amount]),[['2026-01',150000],['2026-02',150000],['2026-03',180000],['2026-04',180000],['2026-05',160000]]);
+  assert.deepEqual(state.payments,before.payments);
+  assert.deepEqual(state.charges.find(c=>c.month==='2026-01'),before.charges[0]);
+  assert.equal(state.tenancies[0].rent,150000);
+  assert.deepEqual((await call('/state',undefined,b)).body.rent_changes,[]);
+  assert.equal((await call(url,{effective_month:'2099-01',amount:190000,reason:'Future agreement'},a)).status,200);
+  assert.equal((await call('/tenancies/'+tenant.id+'/end',{end_on:'2026-05-31',reason:'Moved'},a)).status,200);
+  assert.equal((await call(url,{effective_month:'2099-02',amount:200000,reason:'Invalid former change'},a)).status,409);
+  await call('/charges',{month:'2026-06'},a);
+  assert.equal((await call('/state',undefined,a)).body.charges.length,5);
+});
+
+test('rent changes reject invalid amounts, dates and changes affecting existing charges', async t => {
+  const {call,a,input}=await fixture(t);
+  const tenant=(await call('/tenancies',input,a)).body; const url='/tenancies/'+tenant.id+'/rent-changes';
+  const valid={effective_month:'2026-03',amount:180000,reason:'Agreement'};
+  for(const patch of [{amount:0},{amount:-1},{amount:1.5},{amount:100000001},{amount:150000},{effective_month:'2026-13'},{effective_month:'0000-01'},{effective_month:'2026-01'},{effective_month:'2025-12'},{reason:' '}]) assert.equal((await call(url,{...valid,...patch},a)).status,400);
+  await call('/charges',{month:'2026-04'},a);
+  assert.equal((await call(url,valid,a)).status,409);
+  assert.equal((await call(url,{...valid,effective_month:'2026-04'},a)).status,409);
+  assert.equal((await call(url,{...valid,effective_month:'2026-06'},a)).status,200);
+  assert.equal((await call(url,{...valid,effective_month:'2026-05',amount:200000},a)).status,409);
+  assert.equal((await call('/state',undefined,a)).body.rent_changes.length,1);
+});
+
+test('concurrent rate changes and billing serialize without inconsistent charges', async t => {
+  const {call,a,input}=await fixture(t);
+  const tenant=(await call('/tenancies',input,a)).body; const url='/tenancies/'+tenant.id+'/rent-changes';
+  const change={effective_month:'2026-02',amount:180000,reason:'Agreement'};
+  const results=await Promise.all([call(url,change,a),call(url,change,a)]);
+  assert.deepEqual(results.map(r=>r.status),[200,200]);
+  assert.equal(results[0].body.id,results[1].body.id);
+  const [rate,charge]=await Promise.all([call(url,{...change,effective_month:'2026-03',amount:200000},a),call('/charges',{month:'2026-03'},a)]);
+  assert.equal(charge.status,200); assert.ok([200,409].includes(rate.status));
+  const state=(await call('/state',undefined,a)).body;
+  assert.equal(state.charges[0].amount,rate.status===200?200000:180000);
+  assert.equal(state.rent_changes.length,rate.status===200?2:1);
 });

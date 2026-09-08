@@ -1,12 +1,12 @@
 ---
 document_id: KR-OPS-001
 title: "KasiRent Local Operations and Recovery Guide"
-version: 0.1.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Engineering"
 project: KasiRent
-last_updated: 2026-09-07
+last_updated: 2026-09-08
 ---
 
 # KR-OPS-001 — Local Operations and Recovery Guide
@@ -16,7 +16,7 @@ last_updated: 2026-09-07
 | Field | Value |
 | --- | --- |
 | Document ID | KR-OPS-001 |
-| Version / date | 0.1.0 / 2026-09-07 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-07
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 
 ## Executive summary
 
@@ -73,3 +74,7 @@ For external PostgreSQL use a provider-supported backup/restore process with a t
 - [KR-DEP-001 — Deployment and Release Readiness](../12-Deployment/KR-DEP-001-Deployment-and-Release-Readiness.md)
 - [KR-DDS-001 — Database Design Specification](../05-Database/KR-DDS-001-Database-Design-Specification.md)
 - [KR-TST-001 — Test Strategy and Acceptance Plan](../10-Testing/KR-TST-001-Test-Strategy-and-Acceptance-Plan.md)
+
+## Effective-month rent update
+
+Before migration 002, stop the local API and copy data/postgres to a protected backup. Restart the updated API; the migration adds rent_changes without rewriting money. Do not run an older API for billing after rates are recorded: it ignores rent_changes and would charge the original rate. See [effective-month rent](../08-Backend/KR-BCK-003-Effective-Month-Rent.md).

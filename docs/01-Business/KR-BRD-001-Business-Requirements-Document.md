@@ -1,7 +1,7 @@
 ---
 document_id: KR-BRD-001
 title: "KasiRent Business Requirements Document"
-version: 0.2.0
+version: 0.3.0
 status: Draft
 classification: Internal
 owner: "Product owner"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-BRD-001 |
-| Version / date | 0.2.0 / 2026-09-08 |
+| Version / date | 0.3.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -26,6 +26,7 @@ last_updated: 2026-09-08
 | Version | Date | Description |
 | --- | --- | --- |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
+| 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 
 ## Executive summary
@@ -50,7 +51,7 @@ The baseline actor is the landlord account holder. A renter is the person occupy
 
 ## Measures and boundaries
 
-BR-001 through BR-006 have at least a prototype implementation; some acceptance evidence remains manual or incomplete. BR-007 is partial: move-out/replacement is implemented, while rent changes and opening balances remain planned. BR-008 remains incomplete. BR-009 is future scope.
+BR-001 through BR-006 have at least a prototype implementation; some acceptance evidence remains manual or incomplete. BR-007 is partial: move-out/replacement and rent changes are implemented; opening balances remain planned. BR-008 remains incomplete. BR-009 is future scope.
 
 Business reports currently mean collected rent for the current UTC month, total positive balances and occupied-room count. They do not mean profit, bank reconciliation, overdue-only debt, tax reports or occupancy over time.
 
