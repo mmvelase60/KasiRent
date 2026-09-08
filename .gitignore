@@ -1,0 +1,17 @@
+node_modules/
+.npm-cache/
+.expo/
+dist/
+.env
+.env.*
+!.env.example
+data/
+*.log
+dist-android/
+coverage/
+*.tsbuildinfo
+.DS_Store
+*.pem
+*.key
+*.p12
+*.p8

@@ -1,0 +1,16 @@
+{
+  "name": "kasirent",
+  "private": true,
+  "scripts": {
+    "api": "node --env-file-if-exists=.env server/index.mjs",
+    "test": "node --test server/*.test.mjs",
+    "mobile": "npm --prefix mobile start",
+    "web": "npm --prefix mobile run web"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.3.14",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "zod": "^4.1.5"
+  }
+}
