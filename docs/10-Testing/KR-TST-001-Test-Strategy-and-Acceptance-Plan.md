@@ -1,7 +1,7 @@
 ---
 document_id: KR-TST-001
 title: "KasiRent Test Strategy and Acceptance Plan"
-version: 0.5.0
+version: 0.6.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-TST-001 |
-| Version / date | 0.5.0 / 2026-09-08 |
+| Version / date | 0.6.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -29,6 +29,7 @@ Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 | Version | Date | Description |
 | --- | --- | --- |
+| 0.6.0 | 2026-09-08 | Record partial Android validation and remaining checks. |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
 | 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.4.0 | 2026-09-08 | Add opening balances and correction rules. |
@@ -54,17 +55,17 @@ server/app.test.mjs contains one integration test spanning a full workflow. The 
 | TC-008 | Reversal history and owner check | Covered; repeat reversal pending |
 | TC-009 | Derived balance and dashboard | API-record arithmetic covered; displayed totals, credit, carry-over and timezone pending |
 | TC-010 | Receipt content and delivery | Manual/native/browser checks pending |
-| TC-011 | Sample isolation | UI inspection only; automated UI test pending |
+| TC-011 | Sample isolation | Android sample navigation confirmed; automated UI test pending |
 | TC-012 | Tenancy replacement history | Automated: replacement, arrears, isolation, dates, concurrency, billing and legacy migration/reopen |
 | TC-013 | Rent changes and opening adjustments | Three rent-change integration tests pass; opening balances implemented; general adjustments remain outside scope |
 | TC-014 | Immutable receipt correction | Planned with FR-014 |
 | TC-015 | Recovery/privacy workflow | Planned with FR-015 |
 | TC-016 | Persist, back up and restore | Not tested in current integration suite |
-| TC-017 | Uncharged month presentation | Three helper tests; physical-device checks pending |
+| TC-017 | Uncharged month presentation | Three helper tests; initial Not charged state confirmed on Android, charge completion pending |
 
 ## Commands
 
-From the root, use npm test. Both suites pass null explicitly to select PGlite rather than inherit DATABASE_URL. The migration test uses a new temporary directory, closes and reopens it, then removes only that checked test path. Never change tests to target production.
+From the root, use npm test. Database integration fixtures pass null explicitly to select PGlite rather than inherit DATABASE_URL. The migration test uses a new temporary directory, closes and reopens it, then removes only that checked test path. Never change tests to target production.
 
 From mobile:
 
@@ -96,3 +97,7 @@ Five tests in server/tenancies.test.mjs supplement the original money workflow. 
 - [KR-REL-001 — Initial Local Baseline](../18-Release-Notes/KR-REL-001-Initial-Local-Baseline.md)
 
 Opening-balance contract and acceptance details: [KR-BCK-004](../08-Backend/KR-BCK-004-Opening-Balances.md).
+
+## Android field evidence — 8 September 2026
+
+Registration, initial record creation, initial Not charged display and tenant-detail recovery after the native text fix are user-confirmed. Exact September charge, partial payment, receipts and remaining device workflows are pending. See [KR-TST-002](KR-TST-002-Android-Field-Validation.md) for evidence boundaries and regression checks.

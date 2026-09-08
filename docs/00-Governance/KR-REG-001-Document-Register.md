@@ -1,7 +1,7 @@
 ---
 document_id: KR-REG-001
 title: "KasiRent Document Register"
-version: 0.5.0
+version: 0.6.0
 status: Draft
 classification: Internal
 owner: "Product owner and engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-REG-001 |
-| Version / date | 0.5.0 / 2026-09-08 |
+| Version / date | 0.6.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner and engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -29,6 +29,7 @@ Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 | Version | Date | Description |
 | --- | --- | --- |
+| 0.6.0 | 2026-09-08 | Record partial Android validation and remaining checks. |
 | 0.1.0 | 2026-09-07 | Initial KasiRent documentation baseline. |
 | 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.4.0 | 2026-09-08 | Add opening balances and correction rules. |
@@ -101,6 +102,8 @@ This register lists the complete initial set, including itself. Template placeho
 | KR-BCK-004 | [Opening balances](../08-Backend/KR-BCK-004-Opening-Balances.md) | 08-Backend | Draft |
 
 | KR-UXS-002 | [Missing-charge alerts](../07-Frontend/KR-UXS-002-Missing-Charge-Alerts.md) | 07-Frontend | Draft |
+
+| KR-TST-002 | [Android Field Validation](../10-Testing/KR-TST-002-Android-Field-Validation.md) | 10-Testing | Draft |
 
 ## Change control
 

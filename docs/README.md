@@ -2,7 +2,7 @@
 
 A controlled product and engineering documentation pack, following TaxiSphere's numbered-folder structure and adapted to KasiRent's rental workflows.
 
-**Baseline:** 0.3.0 rent schedule update · **Date:** 8 September 2026 · **Status:** Draft for review.
+**Baseline:** 0.6.0 Android validation update · **Date:** 8 September 2026 · **Status:** Draft for review.
 
 The app is a local MVP. Documentation describes both the inspected implementation and proposed next work; it does not mark the system production-ready.
 
@@ -143,3 +143,5 @@ TaxiSphere supplied the organizational pattern; its transport features, company 
 - [KR-BCK-004 — Opening balances](08-Backend/KR-BCK-004-Opening-Balances.md)
 
 - [KR-UXS-002 — Missing-charge alerts](07-Frontend/KR-UXS-002-Missing-Charge-Alerts.md)
+
+- [KR-TST-002 — Android Field Validation](10-Testing/KR-TST-002-Android-Field-Validation.md) — confirmed results, defects and next checks.

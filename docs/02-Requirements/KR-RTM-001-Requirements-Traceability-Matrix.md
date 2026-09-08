@@ -1,7 +1,7 @@
 ---
 document_id: KR-RTM-001
 title: "KasiRent Requirements Traceability Matrix"
-version: 0.5.0
+version: 0.6.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-RTM-001 |
-| Version / date | 0.5.0 / 2026-09-08 |
+| Version / date | 0.6.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -29,6 +29,7 @@ Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 | Version | Date | Description |
 | --- | --- | --- |
+| 0.6.0 | 2026-09-08 | Record partial Android validation and remaining checks. |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
 | 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.4.0 | 2026-09-08 | Add opening balances and correction rules. |
@@ -82,3 +83,7 @@ server/tenancies.test.mjs adds five tests for history/replacement and ended-tena
 - [KR-REL-001 — Initial Local Baseline](../18-Release-Notes/KR-REL-001-Initial-Local-Baseline.md)
 
 Opening-balance contract and acceptance details: [KR-BCK-004](../08-Backend/KR-BCK-004-Opening-Balances.md).
+
+## Android validation update
+
+Physical Android startup, registration, test-record creation and the initial missing-charge state are confirmed by the user. Tenant detail opens after the native text fix; payment and receipt acceptance remains pending. See [field validation](../10-Testing/KR-TST-002-Android-Field-Validation.md) before marking additional scenarios passed.

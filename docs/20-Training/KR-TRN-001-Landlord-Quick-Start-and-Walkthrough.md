@@ -1,7 +1,7 @@
 ---
 document_id: KR-TRN-001
 title: "KasiRent Landlord Quick Start and Walkthrough"
-version: 0.5.0
+version: 0.6.0
 status: Draft
 classification: Internal
 owner: "Product owner"
@@ -16,7 +16,7 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-TRN-001 |
-| Version / date | 0.5.0 / 2026-09-08 |
+| Version / date | 0.6.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
@@ -29,6 +29,7 @@ Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 | Version | Date | Description |
 | --- | --- | --- |
+| 0.6.0 | 2026-09-08 | Record partial Android validation and remaining checks. |
 | 0.2.0 | 2026-09-08 | Tenancy lifecycle, migration and current verification. |
 | 0.3.0 | 2026-09-08 | Align with effective-month rent changes. |
 | 0.4.0 | 2026-09-08 | Add opening balances and correction rules. |
@@ -110,3 +111,7 @@ Opening arrears/credits, cutoff rules and retained reversals are implemented thr
 ## Review missing rent
 
 Not charged means at least one eligible month is missing from the ledger; the displayed balance excludes that rent. Open the renter and choose Review charges for the first missing month. Check the month before saving: this charges all eligible renters for that month. Repeat for remaining gaps. See [alert rules](../07-Frontend/KR-UXS-002-Missing-Charge-Alerts.md).
+
+## Android validation update
+
+Physical Android startup, registration, test-record creation and the initial missing-charge state are confirmed by the user. Tenant detail opens after the native text fix; payment and receipt acceptance remains pending. See [field validation](../10-Testing/KR-TST-002-Android-Field-Validation.md) before marking additional scenarios passed.
