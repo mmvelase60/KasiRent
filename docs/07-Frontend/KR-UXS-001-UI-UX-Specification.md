@@ -1,7 +1,7 @@
 ---
 document_id: KR-UXS-001
 title: "KasiRent UI UX Specification"
-version: 0.3.0
+version: 0.5.0
 status: Draft
 classification: Internal
 owner: "Product owner and engineering"
@@ -16,10 +16,14 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-UXS-001 |
-| Version / date | 0.3.0 / 2026-09-08 |
+| Version / date | 0.5.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner and engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
+
+## Missing-charge update
+
+Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 ## Revision history
 
@@ -61,7 +65,7 @@ Use forest green primary actions, pale neutral backgrounds and clear numeric tot
 
 ## Known usability work
 
-A zero balance with no charges can be labelled Settled; FR-017 must correct this interpretation. Missing-charge visibility, keyboard date input guidance, larger text, long renter names, small-screen forms, keyboard avoidance and screen-reader focus require device review.
+FR-017 now labels eligible missing months Not charged even with a zero or credit balance. See [missing-charge alerts](KR-UXS-002-Missing-Charge-Alerts.md). Device checks for keyboard date input guidance, larger text, long renter names, small-screen forms, keyboard avoidance and screen-reader focus require device review.
 
 Add privacy information, verified recovery and explanatory receipt correction wording before a broader pilot. Do not describe the app as offline-first or multilingual until those flows exist and are tested.
 

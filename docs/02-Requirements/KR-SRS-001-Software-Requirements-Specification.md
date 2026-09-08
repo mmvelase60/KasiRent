@@ -1,7 +1,7 @@
 ---
 document_id: KR-SRS-001
 title: "KasiRent Software Requirements Specification"
-version: 0.4.0
+version: 0.5.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,10 +16,14 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-SRS-001 |
-| Version / date | 0.4.0 / 2026-09-08 |
+| Version / date | 0.5.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
+
+## Missing-charge update
+
+Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 ## Revision history
 
@@ -62,7 +66,7 @@ Specify functional behaviour and measurable release requirements.
 | FR-014 | Issue immutable, versioned PDF receipts and correction references | Planned |
 | FR-015 | Provide verified account recovery and a documented privacy-rights workflow | Planned |
 | FR-016 | Export records and restore backups with reconciliation evidence | Planned |
-| FR-017 | Show missing monthly charges distinctly from fully paid balances | Planned |
+| FR-017 | Show missing monthly charges distinctly from fully paid balances | Implemented locally |
 
 ## Acceptance examples
 

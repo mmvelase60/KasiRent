@@ -11,6 +11,7 @@ KasiRent brings property inventory, renter history and rent records into one lan
 - Landlord registration, sign-in and owner-scoped records.
 - Properties, rooms, dated move-ins and move-outs.
 - Active and former renter history, including outstanding balances.
+- Missing-charge alerts for active and former renters, with month review.
 - Opening arrears and credits with reversal history and duplicate-period protection.
 - Effective-month rent changes with preserved rate history.
 - Monthly charges, partial payments, credits and payment reversals.

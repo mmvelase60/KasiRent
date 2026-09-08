@@ -1,7 +1,7 @@
 ---
 document_id: KR-RTM-001
 title: "KasiRent Requirements Traceability Matrix"
-version: 0.4.0
+version: 0.5.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,10 +16,14 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-RTM-001 |
-| Version / date | 0.4.0 / 2026-09-08 |
+| Version / date | 0.5.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
+
+## Missing-charge update
+
+Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 ## Revision history
 
@@ -56,7 +60,7 @@ Source paths below are relative to the project root. TC identifiers describe sce
 | BR-005 | FR-014 | US-012 | Planned receipt snapshot | No implementation | TC-014 planned |
 | BR-008 | FR-015 | US-013 | Planned recovery/privacy flow | No implementation | TC-015 planned |
 | BR-008 | FR-016 | US-014 | Planned recovery controls | No implementation | TC-016 planned |
-| BR-004 | FR-017 | US-015 | Missing-charge interpretation | No implementation | TC-017 planned |
+| BR-004 | FR-017 | US-015 | Missing-charge interpretation | mobile/src/rentStatus.mjs and Main.tsx | TC-017 covered by server/rent-status.test.mjs |
 
 ## Evidence limits
 

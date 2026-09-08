@@ -1,7 +1,7 @@
 ---
 document_id: KR-TRN-001
 title: "KasiRent Landlord Quick Start and Walkthrough"
-version: 0.4.0
+version: 0.5.0
 status: Draft
 classification: Internal
 owner: "Product owner"
@@ -16,10 +16,14 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-TRN-001 |
-| Version / date | 0.4.0 / 2026-09-08 |
+| Version / date | 0.5.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Product owner |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
+
+## Missing-charge update
+
+Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 ## Revision history
 
@@ -102,3 +106,7 @@ Open Tenants, choose an active renter and choose Change rent. Enter the rand amo
 ## Opening balances
 
 Opening arrears/credits, cutoff rules and retained reversals are implemented through migration 003 and owner-scoped endpoints. Balance includes the active signed opening amount; collection totals do not. See [KR-BCK-004](../08-Backend/KR-BCK-004-Opening-Balances.md) for the contract and workflow.
+
+## Review missing rent
+
+Not charged means at least one eligible month is missing from the ledger; the displayed balance excludes that rent. Open the renter and choose Review charges for the first missing month. Check the month before saving: this charges all eligible renters for that month. Repeat for remaining gaps. See [alert rules](../07-Frontend/KR-UXS-002-Missing-Charge-Alerts.md).

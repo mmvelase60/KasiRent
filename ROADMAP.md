@@ -4,8 +4,8 @@ This is a proposed sequence, not a promised schedule. The current local MVP is d
 
 | Stage | Focus | Exit evidence |
 | --- | --- | --- |
-| Current | Rooms, historical tenancies and move-outs, opening arrears/credits, effective-month rent changes, rent charges, payments, corrections, text receipts | Existing source and limited local test/build results |
-| Next: ledger completeness | Missing-charge indicators | FR-013 and FR-017 acceptance tests; migrations on populated data |
+| Current | Rooms, historical tenancies and move-outs, missing-charge alerts, opening arrears/credits, effective-month rent changes, rent charges, payments, corrections, text receipts | Existing source and limited local test/build results |
+| Next: workflow validation | Test complete landlord workflows on a phone | Recorded device results and resolved usability issues |
 | Pilot preparation | Stable receipts, account recovery, privacy operations, exports and restoration | FR-014–FR-016 and physical-device checks |
 | Controlled pilot | Reconcile real workflows over two rent cycles | Recorded user feedback and balance agreement |
 | Public release | Hosting, monitoring, hardened access and recovery | Release-readiness gates closed with evidence |

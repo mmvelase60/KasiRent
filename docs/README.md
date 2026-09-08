@@ -141,3 +141,5 @@ TaxiSphere supplied the organizational pattern; its transport features, company 
 - [KR-BCK-003 — Effective-Month Rent](08-Backend/KR-BCK-003-Effective-Month-Rent.md)
 
 - [KR-BCK-004 — Opening balances](08-Backend/KR-BCK-004-Opening-Balances.md)
+
+- [KR-UXS-002 — Missing-charge alerts](07-Frontend/KR-UXS-002-Missing-Charge-Alerts.md)

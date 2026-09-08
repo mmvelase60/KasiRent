@@ -1,7 +1,7 @@
 ---
 document_id: KR-TST-001
 title: "KasiRent Test Strategy and Acceptance Plan"
-version: 0.4.0
+version: 0.5.0
 status: Draft
 classification: Internal
 owner: "Engineering"
@@ -16,10 +16,14 @@ last_updated: 2026-09-08
 | Field | Value |
 | --- | --- |
 | Document ID | KR-TST-001 |
-| Version / date | 0.4.0 / 2026-09-08 |
+| Version / date | 0.5.0 / 2026-09-08 |
 | Status | Draft — review pending |
 | Owner | Engineering |
 | Product baseline | Local MVP; planned capabilities explicitly identified |
+
+## Missing-charge update
+
+Version 0.5.0 adds FR-017 missing-charge visibility; see KR-UXS-002.
 
 ## Revision history
 
@@ -56,7 +60,7 @@ server/app.test.mjs contains one integration test spanning a full workflow. The 
 | TC-014 | Immutable receipt correction | Planned with FR-014 |
 | TC-015 | Recovery/privacy workflow | Planned with FR-015 |
 | TC-016 | Persist, back up and restore | Not tested in current integration suite |
-| TC-017 | Uncharged month presentation | Planned with FR-017 |
+| TC-017 | Uncharged month presentation | Three helper tests; physical-device checks pending |
 
 ## Commands
 
