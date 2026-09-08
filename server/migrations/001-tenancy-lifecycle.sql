@@ -1,0 +1,12 @@
+ALTER TABLE tenancies ADD COLUMN start_on date;
+ALTER TABLE tenancies ADD COLUMN start_date_estimated boolean NOT NULL DEFAULT false;
+UPDATE tenancies SET start_on = (start_month || '-01')::date, start_date_estimated = true;
+ALTER TABLE tenancies ALTER COLUMN start_on SET NOT NULL;
+ALTER TABLE tenancies ADD COLUMN end_on date;
+ALTER TABLE tenancies ADD COLUMN ended_at timestamptz;
+ALTER TABLE tenancies ADD COLUMN end_reason text;
+ALTER TABLE tenancies ADD CONSTRAINT tenancy_dates_valid CHECK (end_on IS NULL OR end_on >= start_on);
+ALTER TABLE tenancies ADD CONSTRAINT tenancy_end_complete CHECK ((end_on IS NULL AND ended_at IS NULL AND end_reason IS NULL) OR (end_on IS NOT NULL AND ended_at IS NOT NULL AND end_reason IS NOT NULL AND length(trim(end_reason)) > 0));
+ALTER TABLE tenancies DROP CONSTRAINT tenancies_room_id_key;
+CREATE UNIQUE INDEX tenancies_one_active_room ON tenancies(room_id) WHERE end_on IS NULL;
+CREATE INDEX tenancies_room_history ON tenancies(room_id, start_on);

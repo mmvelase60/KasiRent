@@ -1,0 +1,40 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { database } from './db.mjs';
+import { app } from './app.mjs';
+test('rent workflow, duplicate protection, correction and landlord isolation',async()=>{
+ const db=await database(null,'memory://');const server=app(db).listen(0,'127.0.0.1');await new Promise(resolve=>server.once('listening',resolve));
+ const call=async(path,body,token)=>{const r=await fetch(`http://127.0.0.1:${server.address().port}${path}`,{method:body?'POST':'GET',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,body:await r.json()};};
+ try {
+ const a=(await call('/auth/register',{name:'Owner A',email:'a@example.com',password:'long-password-A'})).body;
+ const b=(await call('/auth/register',{name:'Owner B',email:'b@example.com',password:'long-password-B'})).body;
+ assert.ok(a.token);assert.ok(b.token);
+ assert.equal((await call('/state')).status,401);
+ const p=(await call('/properties',{name:'Family yard',address:'1 Test Street'},a.token)).body;
+ assert.equal((await call('/rooms',{property_id:p.id,name:'Intruder'},b.token)).status,404);
+ const r=(await call('/rooms',{property_id:p.id,name:'Room 1'},a.token)).body;
+ const t=(await call('/tenancies',{room_id:r.id,name:'Tenant',phone:'',rent:150000,due_day:1,start_month:'2026-01'},a.token)).body;
+ assert.ok(t.id);assert.equal(t.start_date_estimated,true);
+ await call('/charges',{month:'2026-01'},a.token);await call('/charges',{month:'2026-01'},a.token);
+ const payment={id:randomUUID(),tenancy_id:t.id,amount:100000,method:'Cash',paid_on:'2026-01-02',reference:'January rent'};
+ assert.equal((await call('/payments',payment,b.token)).status,404);
+ assert.equal((await call('/payments',{...payment,amount:-1},a.token)).status,400);
+ assert.equal((await call('/payments',{...payment,paid_on:'2026-02-30'},a.token)).status,400);
+ assert.equal((await call('/payments',payment,a.token)).status,200);
+ assert.equal((await call('/payments',payment,a.token)).status,200);
+ let state=(await call('/state',undefined,a.token)).body;
+ assert.equal(state.charges.length,1);assert.equal(state.payments.length,1);
+ assert.equal(state.charges[0].amount-state.payments[0].amount,50000);
+ const second={...payment,id:randomUUID(),amount:50000};await call('/payments',second,a.token);
+ state=(await call('/state',undefined,a.token)).body;
+ assert.equal(state.charges[0].amount-state.payments.reduce((n,p)=>n+p.amount,0),0);
+ assert.equal((await call('/payments/'+second.id+'/void',{reason:'Wrong amount'},b.token)).status,404);
+ assert.equal((await call('/payments/'+second.id+'/void',{reason:'Wrong amount'},a.token)).status,200);
+ state=(await call('/state',undefined,a.token)).body;
+ assert.equal(state.payments.filter(p=>!p.voided_at).length,1);
+ assert.equal(state.payments.find(p=>p.id===second.id).void_reason,'Wrong amount');
+ assert.equal((await call('/state',undefined,b.token)).body.tenancies.length,0);
+ await call('/logout',{},a.token);assert.equal((await call('/state',undefined,a.token)).status,401);
+ } finally {await new Promise(resolve=>server.close(resolve));await db.close();}
+});
